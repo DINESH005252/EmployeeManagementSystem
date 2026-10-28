@@ -1,0 +1,23 @@
+# Eclipse workspace files
+.metadata/
+
+# Java build output
+/build/
+/bin/
+/target/
+
+# Temporary files and logs
+*.log
+*.tmp
+
+# Local environment secrets
+.env
+.env.*
+!.env.example
+
+# Compiled Java files
+*.class
+
+# Local database configuration
+db.properties
+application-local.properties

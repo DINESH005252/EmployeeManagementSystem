@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkPulse — HR & Admin Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-dark: #f8fafc;
+    --brand-dark-surface: #ffffff;
+    --brand-dark-card: #ffffff;
+    --brand-dark-card-hover: #f1f5f9;
+    --brand-dark-border: #e2e8f0;
+    --brand-dark-border-light: #f1f5f9;
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #eff6ff;
+    --primary-border: #bfdbfe;
+
+    --brand-gradient: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    --brand-glow: rgba(37, 99, 235, 0.15);
+    --brand-accent: #2563eb;
+    --brand-accent-glow: #3b82f6;
+
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+
+    --emerald-500: #10b981;
+    --emerald-600: #059669;
+    --emerald-50: #ecfdf5;
+    --emerald-700: #065f46;
+    --emerald-border: #a7f3d0;
+
+    --rose-500: #f43f5e;
+    --rose-600: #e11d48;
+    --rose-50: #fef2f2;
+    --rose-700: #991b1b;
+    --rose-border: #fecaca;
+
+    --amber-500: #f59e0b;
+    --amber-50: #fffbeb;
+    --amber-700: #92400e;
+    --amber-border: #fde68a;
+
+    --indigo-50: #eff6ff;
+    --indigo-700: #1d4ed8;
+    --indigo-border: #bfdbfe;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    --shadow-subtle: 0 1px 3px rgba(15, 23, 42, 0.05);
+    --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f8fafc;
+    color: var(--slate-700);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid var(--slate-200);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  .brand-header {
+    height: 72px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--slate-200);
+    flex-shrink: 0;
+  }
+  .logo-box {
+    width: 36px;
+    height: 36px;
+    background: var(--brand-gradient);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    flex-shrink: 0;
+  }
+  .logo-box svg {
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+  }
+  .brand-text {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: 0.02em;
+  }
+  .brand-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary-border);
+    padding: 3px 7px;
+    border-radius: var(--radius-full);
+    margin-left: auto;
+    letter-spacing: 0.05em;
+  }
+
+  /* Fixed Navigation Alignment */
+  .nav-group {
+    padding: 16px 14px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+  .nav-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--slate-400);
+    padding: 0 10px 8px 10px;
+  }
+  .tabs-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+
+  /* Tab Navigation Item Alignment */
+  .tabs-nav button, .tabs-nav .btn-sidebar-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    width: 100%;
+    padding: 10px 14px !important;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--slate-600);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none !important;
+    transition: all 0.18s ease;
+  }
+  .tabs-nav button svg, .tabs-nav .btn-sidebar-link svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    flex-shrink: 0 !important;
+    color: var(--slate-400);
+    transition: color 0.18s ease, transform 0.18s ease;
+  }
+  .tabs-nav button:hover, .tabs-nav .btn-sidebar-link:hover {
+    background: var(--slate-100);
+    color: var(--slate-900);
+  }
+  .tabs-nav button:hover svg, .tabs-nav .btn-sidebar-link:hover svg {
+    color: var(--primary);
+    transform: scale(1.08);
+  }
+  .tabs-nav button.on, .tabs-nav .btn-sidebar-link.on {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    border-color: var(--primary-border);
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.08);
+  }
+  .tabs-nav button.on svg, .tabs-nav .btn-sidebar-link.on svg {
+    color: var(--primary);
+  }
+  .tabs-nav .btn-sidebar-sublink {
+    padding-left: 28px !important;
+    font-size: 13px !important;
+    color: var(--slate-600) !important;
+  }
+  .tabs-nav .btn-sidebar-sublink svg {
+    width: 15px !important;
+    height: 15px !important;
+    min-width: 15px !important;
+  }
+
+  /* Main Workspace Area */
+  .workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #f8fafc;
+    min-height: 100vh;
+  }
+
+  /* Header Topbar */
+  .topbar {
+    height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--slate-200);
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .page-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+  }
+  .user-ctrls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    transition: all 0.2s ease;
+  }
+  .user-badge:hover {
+    background: var(--slate-50);
+    border-color: var(--slate-300);
+  }
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  }
+  .user-info-text {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--slate-800);
+  }
+  .btn-signout {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .btn-signout:hover {
+    background: #fef2f2;
+    border-color: #f87171;
+    color: #991b1b;
+  }
+
+  /* View Body Content */
+  .content-wrap {
+    padding: 32px 36px;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Metric KPI Overview */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+    margin-bottom: 26px;
+  }
+  .kpi-card {
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+    border-color: var(--slate-300);
+  }
+  .kpi-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .kpi-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .kpi-value {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-top: 3px;
+    letter-spacing: -0.02em;
+  }
+
+  /* Core Card Container */
+  .app-card {
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 36px;
+    position: relative;
+    color: var(--slate-700);
+  }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; animation: panelFade 0.25s ease-out; }
+  @keyframes panelFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .panel-subtitle {
+    font-size: 14px;
+    color: var(--slate-500);
+    margin-bottom: 26px;
+    line-height: 1.5;
+  }
+
+  /* Form Elements */
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin: 18px 0 7px;
+  }
+  input, select {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid var(--slate-300);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: var(--slate-900);
+    transition: all 0.15s ease;
+    box-shadow: none;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+
+  /* Primary Action Buttons */
+  button[type="submit"], .btn-action, .btn-create-team, button[onclick*="showCreateForm"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-family: inherit !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    border-radius: var(--radius-sm) !important;
+    border: 1px solid var(--primary) !important;
+    cursor: pointer !important;
+    background: var(--brand-gradient) !important;
+    color: #ffffff !important;
+    transition: all 0.18s ease !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+    text-decoration: none !important;
+  }
+  button[type="submit"]:hover:not(:disabled),
+  .btn-action:hover:not(:disabled),
+  .btn-create-team:hover,
+  button[onclick*="showCreateForm"]:hover {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+  }
+  button[type="submit"]:active:not(:disabled),
+  .btn-create-team:active,
+  button[onclick*="showCreateForm"]:active {
+    transform: translateY(0) !important;
+  }
+  button:disabled {
+    background: var(--slate-100) !important;
+    color: var(--slate-400) !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    border: 1px solid var(--slate-200) !important;
+    transform: none !important;
+  }
+
+  /* Specific Create Team Button CTA */
+  .btn-create-team, button[onclick*="showCreateForm"] {
+    background: var(--brand-gradient) !important;
+    padding: 10px 20px !important;
+    font-size: 13.5px !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+    margin: 0 !important;
+  }
+
+  /* Team Top Header / Action Bar */
+  .team-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 0 20px 0;
+    padding: 18px 22px;
+    background: #f8fafc;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-subtle);
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .team-top-bar .team-header-title h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .team-top-bar .team-header-title p {
+    font-size: 13px;
+    color: var(--slate-500);
+    margin: 3px 0 0;
+  }
+
+  /* Team Search & Filter Card */
+  .team-search-card {
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-subtle);
+  }
+  .team-search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+  }
+  .team-search-form .form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 170px;
+    min-width: 140px;
+  }
+  .team-search-form label {
+    margin: 0 0 6px 0 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: var(--slate-500) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+  }
+  .team-search-form input,
+  .team-search-form select {
+    margin: 0 !important;
+    height: 38px !important;
+    background: #ffffff !important;
+    border: 1.5px solid var(--slate-300) !important;
+    border-radius: 8px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: var(--slate-900) !important;
+    width: 100% !important;
+  }
+  .team-search-form input:focus,
+  .team-search-form select:focus {
+    background: #ffffff !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  }
+  .team-search-form button[type="submit"],
+  .team-search-form .btn-filter {
+    height: 38px !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    border-radius: 8px !important;
+    background: var(--brand-gradient) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+  }
+  .team-search-form button[type="submit"]:hover,
+  .team-search-form .btn-filter:hover {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+  }
+
+  /* Leave Decisions & Small Actions */
+  .approve, .reject, .confirm-reject {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .approve {
+    background: #10b981;
+    color: #ffffff;
+    margin-right: 6px;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  }
+  .approve:hover { background: #059669; transform: translateY(-1px); }
+  .reject, .confirm-reject {
+    background: #f43f5e;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
+  }
+  .reject:hover, .confirm-reject:hover { background: #e11d48; transform: translateY(-1px); }
+  .reject-reason {
+    width: 60%;
+    padding: 8px 12px;
+    margin-right: 6px;
+    background: #ffffff;
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius-sm);
+    color: var(--slate-900);
+    font-size: 13px;
+  }
+
+  /* Table Actions Column & Button Group */
+  th.actions-col, td.actions-cell, th:last-child, td:last-child {
+    white-space: nowrap !important;
+  }
+  .action-btn-group {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+  }
+
+  /* Table Action Buttons */
+  td button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    background: #ffffff !important;
+    border: 1px solid var(--slate-300) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  }
+  td button svg {
+    width: 12px !important;
+    height: 12px !important;
+    flex-shrink: 0 !important;
+  }
+  td button.view-team {
+    color: #1d4ed8 !important;
+    border-color: #bfdbfe !important;
+    background: #eff6ff !important;
+  }
+  td button.view-team svg {
+    color: #2563eb !important;
+  }
+  td button.view-team:hover {
+    background: #dbeafe !important;
+    border-color: #93c5fd !important;
+    color: #1e40af !important;
+    transform: translateY(-1px) !important;
+  }
+  td button.edit-team {
+    color: #b45309 !important;
+    border-color: #fde68a !important;
+    background: #fffbeb !important;
+  }
+  td button.edit-team svg {
+    color: #d97706 !important;
+  }
+  td button.edit-team:hover {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    border-color: #fcd34d !important;
+    transform: translateY(-1px) !important;
+  }
+  td button.delete-team, td button.remove-member {
+    color: #dc2626 !important;
+    border-color: #fecaca !important;
+    background: #fef2f2 !important;
+  }
+  td button.delete-team svg, td button.remove-member svg {
+    color: #ef4444 !important;
+  }
+  td button.delete-team:hover, td button.remove-member:hover {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+    border-color: #fca5a5 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Standalone Team Details Actions Bar */
+  .team-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 24px 0;
+    flex-wrap: wrap;
+  }
+
+  /* Standalone Edit & Delete Buttons */
+  button.edit-team:not(td button), .btn-edit-info {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    background: #ffffff !important;
+    border: 1px solid #fed7aa !important;
+    color: #c2410c !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    padding: 9.5px 18px !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    margin: 12px 0 !important;
+  }
+  button.edit-team:not(td button):hover, .btn-edit-info:hover {
+    background: #fff7ed !important;
+    border-color: #fdba74 !important;
+    color: #9a3412 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  button.delete-team:not(td button), .btn-delete-info {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    background: #ffffff !important;
+    border: 1px solid #fecaca !important;
+    color: #dc2626 !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    padding: 9.5px 18px !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    margin: 12px 0 !important;
+  }
+  button.delete-team:not(td button):hover, .btn-delete-info:hover {
+    background: #fef2f2 !important;
+    border-color: #f87171 !important;
+    color: #991b1b !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Back Button */
+  button.back-to-list {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #ffffff !important;
+    border: 1px solid var(--slate-300) !important;
+    color: var(--slate-700) !important;
+    padding: 9px 16px !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    cursor: pointer !important;
+    margin-top: 16px !important;
+    transition: all 0.15s ease !important;
+  }
+  button.back-to-list:hover {
+    background: var(--slate-50) !important;
+    color: var(--slate-900) !important;
+    border-color: var(--slate-400) !important;
+  }
+
+  /* Embedded Dashboard Components */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .stat {
+    background: #f8fafc;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+  }
+  .stat b {
+    display: block;
+    font-size: 26px;
+    color: var(--slate-900);
+    font-weight: 800;
+  }
+  .menu a {
+    display: block;
+    padding: 13px 18px;
+    margin: 8px 0;
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .menu a:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-border);
+    transform: translateX(2px);
+  }
+
+  /* Async Result Containers & Tables */
+  #result {
+    margin-top: 28px;
+    border-top: 1px solid var(--slate-200);
+    padding-top: 24px;
+  }
+  .msg {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 16px 0;
+  }
+  .ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+  .err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin: 18px 0;
+    box-shadow: var(--shadow-subtle);
+    background: #ffffff;
+  }
+  th, td {
+    padding: 13px 18px;
+    font-size: 13.5px;
+    text-align: left;
+    border-bottom: 1px solid var(--slate-200);
+  }
+  th {
+    background: #f8fafc;
+    font-weight: 700;
+    color: var(--slate-600);
+    letter-spacing: 0.04em;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  td {
+    color: var(--slate-800);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background-color: #f8fafc; }
+
+  /* Pill Badges */
+  .PRESENT, .APPROVED, .ACTIVE { 
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3.5px 10px;
+    border-radius: var(--radius-full);
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46; 
+    font-weight: 700; 
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+  }
+  .PRESENT::before, .APPROVED::before, .ACTIVE::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+  }
+
+  .ABSENT, .REJECTED, .INACTIVE { 
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3.5px 10px;
+    border-radius: var(--radius-full);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b; 
+    font-weight: 700; 
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+  }
+  .ABSENT::before, .REJECTED::before, .INACTIVE::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ef4444;
+  }
+
+  .LEAVE, .HALF_DAY, .PENDING { 
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3.5px 10px;
+    border-radius: var(--radius-full);
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e; 
+    font-weight: 700; 
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+  }
+  .LEAVE::before, .HALF_DAY::before, .PENDING::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f59e0b;
+  }
+  small { color: var(--slate-400); display: block; margin-top: 6px; }
+
+  @media (max-width: 900px) {
+    .app-shell { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; border-right: none; }
+    .tabs-nav { flex-direction: row; overflow-x: auto; padding-bottom: 8px; }
+    .tabs-nav button { white-space: nowrap; }
+    .topbar { padding: 0 18px; }
+    .content-wrap { padding: 18px; }
+  }
+</style>
+<style>
+
+    /* Accordion Nav Groups (Matching User Reference Design) */
+    .nav-accordion-group {
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+    .nav-accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 9px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      color: #1e293b;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.18s ease;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    .nav-accordion-header:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+    .nav-accordion-header.open {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .nav-accordion-header .acc-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #2563eb;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: all 0.18s ease;
+    }
+    .nav-accordion-header.open .acc-icon-box {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+    .nav-accordion-header .acc-text-wrap {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-left: 10px;
+      min-width: 0;
+      text-align: left;
+    }
+    .nav-accordion-header .acc-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.25;
+    }
+    .nav-accordion-header .acc-subtitle {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.2;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-accordion-header .acc-chevron {
+      width: 16px;
+      height: 16px;
+      color: #94a3b8;
+      transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+    .nav-accordion-header.open .acc-chevron {
+      transform: rotate(180deg);
+      color: #2563eb;
+    }
+
+    /* Vertical Tree Branch connecting children */
+    .nav-accordion-body {
+      display: none;
+      position: relative;
+      margin-left: 20px;
+      padding-left: 12px;
+      border-left: 2px solid #e2e8f0;
+      margin-top: 6px;
+      margin-bottom: 6px;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .nav-accordion-body.open {
+      display: flex;
+    }
+    .nav-accordion-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #475569;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+      position: relative;
+    }
+    .nav-accordion-item:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #e2e8f0;
+    }
+    .nav-accordion-item .item-icon-box {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #64748b;
+      transition: all 0.15s ease;
+    }
+    .nav-accordion-item:hover .item-icon-box {
+      color: #2563eb;
+      border-color: #bfdbfe;
+    }
+    .nav-accordion-item .item-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .nav-accordion-item .item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.25;
+    }
+    .nav-accordion-item .item-desc {
+      font-size: 10.5px;
+      color: #64748b;
+      line-height: 1.2;
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Active highlighted item (matches user reference image) */
+    .nav-accordion-item.on {
+      background: #eff6ff;
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.12), 0 1px 3px rgba(37, 99, 235, 0.08);
+    }
+    .nav-accordion-item.on .item-icon-box {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+    .nav-accordion-item.on .item-name {
+      color: #2563eb;
+      font-weight: 700;
+    }
+    .nav-accordion-item.on .item-desc {
+      color: #3b82f6;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- Consistent Sidebar Navigation -->
+        <aside class="sidebar">
+    <div class="brand-header">
+      <div class="logo-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <span class="brand-text">WORKPULSE HRMS</span>
+      <span class="brand-badge">ADMIN</span>
+    </div>
+
+    <!-- Core Operations -->
+    <div class="nav-group">
+      <span class="nav-label">Core Operations</span>
+      <div id="tabs" class="tabs-nav">
+        <button type="button" class="btn-sidebar-link on" data-target="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Dashboard
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="leaverequests">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Leave Requests
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="absent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Mark Absent
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="leave">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Mark Leave
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="daily">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Daily Report
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="history">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          History
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="monthly">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+          Monthly Summary
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="teams">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Manage Teams
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="teamdash">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Team Dashboard
+        </button>
+        <button type="button" class="btn-sidebar-link" data-target="createuser">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Create User
+        </button>
+      </div>
+    </div>
+
+    <!-- Task Management -->
+    <div class="nav-group" style="border-top: 1px solid var(--slate-200); padding-top: 14px; margin-top: 6px;">
+      <span class="nav-label">Task Management</span>
+      <div class="tabs-nav">
+        <a href="taskDashboard" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Task Dashboard
+        </a>
+        <a href="viewTask" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Manage Tasks
+        </a>
+      </div>
+    </div>
+
+    <!-- Reports Accordion (Matching Reference Design) -->
+    <div class="nav-accordion-group">
+      <div id="acc-reports-header" class="nav-accordion-header " onclick="toggleNavAccordion('acc-reports')">
+        <div class="acc-icon-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+        </div>
+        <div class="acc-text-wrap">
+          <span class="acc-title">Reports</span>
+          <span class="acc-subtitle">Open report list</span>
+        </div>
+        <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+
+      <div id="acc-reports-body" class="nav-accordion-body ">
+        <a href="reportsDashboard" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Reports Hub</span>
+            <span class="item-desc">Pick an employee</span>
+          </div>
+        </a>
+        <a href="attendanceReport" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Attendance Report</span>
+            <span class="item-desc">Daily and monthly attendance</span>
+          </div>
+        </a>
+        <a href="taskReport" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Task Report</span>
+            <span class="item-desc">Task progress</span>
+          </div>
+        </a>
+        <a href="leaveReport" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Leave Report</span>
+            <span class="item-desc">Leave requests by status</span>
+          </div>
+        </a>
+        <a href="employeeReport" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Employee Report</span>
+            <span class="item-desc">Department directory</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Payroll Accordion (Matching Reference Design) -->
+    <div class="nav-accordion-group">
+      <div id="acc-payroll-header" class="nav-accordion-header " onclick="toggleNavAccordion('acc-payroll')">
+        <div class="acc-icon-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><circle cx="16" cy="15" r="1"></circle></svg>
+        </div>
+        <div class="acc-text-wrap">
+          <span class="acc-title">Payroll</span>
+          <span class="acc-subtitle">Salary & compensation</span>
+        </div>
+        <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+
+      <div id="acc-payroll-body" class="nav-accordion-body ">
+        <a href="payroll" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><circle cx="16" cy="15" r="1"></circle></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Payroll Dashboard</span>
+            <span class="item-desc">Overview & KPIs</span>
+          </div>
+        </a>
+        <a href="payroll/salary-structures" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Salary Structures</span>
+            <span class="item-desc">Define pay grades</span>
+          </div>
+        </a>
+        <a href="payroll/processing" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Process Payroll</span>
+            <span class="item-desc">Monthly calculations</span>
+          </div>
+        </a>
+        <a href="payroll/history" class="nav-accordion-item ">
+          <div class="item-icon-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div class="item-text">
+            <span class="item-name">Payroll History &amp; Slips</span>
+            <span class="item-desc">Review records & slips</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Performance & Ratings -->
+    <div class="nav-group" style="border-top: 1px solid var(--slate-200); padding-top: 14px; margin-top: 6px; padding-bottom: 24px;">
+      <span class="nav-label">Performance &amp; Ratings</span>
+      <div class="tabs-nav">
+        <a href="employeePerformance" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Employee Ratings &amp; Performance
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Workspace Area -->
+  <div class="workspace">
+    <header class="topbar">
+      <h1 class="page-title">HR &amp; Admin Attendance Hub</h1>
+      <div class="user-ctrls">
+        <div class="user-badge">
+          <div class="user-avatar" id="avatarInitial">A</div>
+          <span class="user-info-text" id="who">Connecting session...</span>
+        </div>
+        <a class="btn-signout" href="logout">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </a>
+      </div>
+    </header>
+
+    <div class="content-wrap">
+      <!-- Quick Metric KPI Summary -->
+      <div class="metrics-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap" style="background:#eff6ff; color:#2563eb;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="kpi-title">Current Time</div>
+            <div class="kpi-value" id="kpiClock">--:--:--</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap" style="background:#ecfdf5; color:#10b981;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="kpi-title">Role Authorization</div>
+            <div class="kpi-value" id="kpiRole">HR Administrator</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap" style="background:#fffbeb; color:#f59e0b;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <div class="kpi-title">Today's Date</div>
+            <div class="kpi-value" id="kpiDate">-- --- ----</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Application Surface -->
+      <main class="app-card">
+        <!-- Section: Dashboard -->
+        <section id="dashboard" class="panel active">
+          <h2>Attendance Operations Dashboard</h2>
+          <p class="panel-subtitle">Real-time attendance summaries, shift statuses, and logs.</p>
+          <div id="dashboard-content">Loading...</div>
+        </section>
+
+        <!-- Section: Leave Requests -->
+        <section id="leaverequests" class="panel">
+          <h2>Pending Leave Requests</h2>
+          <p class="panel-subtitle">Review, approve, or reject employee requests. Approved leave locks employee attendance actions for the approved period.</p>
+        </section>
+
+        <!-- Section: Absent -->
+        <section id="absent" class="panel">
+          <h2>Mark Employee Absent</h2>
+          <p class="panel-subtitle">Directly mark an employee as absent for today's shift.</p>
+          <form method="post" data-confirm="Mark employee as ABSENT?" style="max-width: 480px;">
+            <input type="hidden" name="action" value="absent">
+            <input type="hidden" name="confirm" value="N">
+            <label>Employee ID</label>
+            <input name="employeeId" placeholder="e.g. EMP102" required>
+            <button type="submit">Mark Absent</button>
+          </form>
+        </section>
+
+        <!-- Section: Direct Leave -->
+        <section id="leave" class="panel">
+          <h2>Record Direct Leave</h2>
+          <p class="panel-subtitle">Directly enter an approved leave record on behalf of an employee for today.</p>
+          <form method="post" style="max-width: 520px;">
+            <input type="hidden" name="action" value="leave">
+            <label>Employee ID</label>
+            <input name="employeeId" placeholder="e.g. EMP103" required>
+            <label>Leave Type</label>
+            <input name="leaveType" placeholder="e.g. Casual Leave" required>
+            <label>Reason</label>
+            <input name="reason" placeholder="Personal work / Medical">
+            <button type="submit">Record Leave</button>
+          </form>
+        </section>
+
+        <!-- Section: Daily Report -->
+        <section id="daily" class="panel">
+          <h2>Daily Attendance Report</h2>
+          <p class="panel-subtitle">Pull a complete organizational roll-call for any specific date.</p>
+          <form method="get" style="max-width: 420px;">
+            <input type="hidden" name="action" value="daily">
+            <label>Target Date (leave blank for today)</label>
+            <input type="date" name="date">
+            <button type="submit">Generate Report</button>
+          </form>
+        </section>
+
+        <!-- Section: History -->
+        <section id="history" class="panel">
+          <h2>Employee Attendance History</h2>
+          <p class="panel-subtitle">Inspect historical time tracking records for a single employee.</p>
+          <form method="get" style="max-width: 420px;">
+            <input type="hidden" name="action" value="history">
+            <label>Employee ID</label>
+            <input name="employeeId" placeholder="e.g. EMP101" required>
+            <button type="submit">Search Records</button>
+          </form>
+        </section>
+
+        <!-- Section: Monthly Summary -->
+        <section id="monthly" class="panel">
+          <h2>Monthly Attendance Summary</h2>
+          <p class="panel-subtitle">Generate monthly work metrics and shift totals for an employee.</p>
+          <form method="get" style="max-width: 420px;">
+            <input type="hidden" name="action" value="monthly">
+            <label>Employee ID</label>
+            <input name="employeeId" placeholder="e.g. EMP101" required>
+            <label>Month (leave blank for current month)</label>
+            <input type="month" name="month">
+            <button type="submit">Generate Summary</button>
+          </form>
+        </section>
+
+        <!-- Section: Teams -->
+        <section id="teams" class="panel">
+          <h2>Manage Teams</h2>
+          <p class="panel-subtitle">Create teams, assign a manager, and add or remove members.</p>
+        </section>
+
+        <!-- Section: Team Dashboard -->
+        <section id="teamdash" class="panel">
+          <h2>Team Dashboard</h2>
+          <p class="panel-subtitle">High-level operational overview across all organization teams.</p>
+        </section>
+
+        <!-- Section: Create User -->
+        <section id="createuser" class="panel">
+          <h2>Create Employee / Manager</h2>
+          <p class="panel-subtitle">Add a new staff member to the organization directory.</p>
+          <form method="post" data-url="admin-user" style="max-width: 520px;">
+            <label>Full Name</label>
+            <input name="name" placeholder="e.g. Jane Doe" required maxlength="100">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="jane.doe@company.com" required maxlength="100">
+            <label>Department</label>
+            <input name="department" placeholder="e.g. Engineering" required maxlength="50">
+            <label>Role</label>
+            <select name="role">
+              <option value="EMPLOYEE">Employee</option>
+              <option value="MANAGER">Manager</option>
+            </select>
+            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 16px; margin:14px 0 16px; font-size:13px; color:#1e40af; display:flex; align-items:flex-start; gap:10px; line-height:1.45;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:1px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <div>
+                <strong>Automated Temporary Password:</strong><br>
+                HR does not set passwords. A secure, random temporary password will be automatically generated and emailed to the user. The user can log in and change their password.
+              </div>
+            </div>
+            <button type="submit">Create Account</button>
+          </form>
+        </section>
+
+        <!-- Server Injected Table & Results -->
+        <div id="result"></div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script src="teams.js"></script>
+<script>
+  var SERVLET = 'attendance';
+  var panels = ['dashboard','leaverequests','absent','leave','daily','history','monthly','teams','teamdash','createuser'];
+  var result = document.getElementById('result');
+  var FORM = { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' };
+
+  // Live Clock & Date display
+  function updateLiveClock() {
+    var now = new Date();
+    document.getElementById('kpiClock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('kpiDate').textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  setInterval(updateLiveClock, 1000);
+  updateLiveClock();
+
+  function show(name) {
+    panels.forEach(function (p) {
+      document.getElementById(p).classList.toggle('active', p === name);
+    });
+    document.querySelectorAll('#tabs button').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.target === name);
+    });
+    result.innerHTML = '';
+    if (name === 'dashboard') loadDashboard();
+    else if (name === 'leaverequests') loadRequests();
+    else if (name === 'teams') TeamsUI.showList(result);
+    else if (name === 'teamdash') TeamsUI.showDashboard(result);
+    else {
+      var first = document.querySelector('#' + name + ' input:not([type=hidden])');
+      if (first) first.focus();
+    }
+  }
+
+  async function fetchContent(url, options) {
+    try {
+      var r = await fetch(url, options);
+      if (r.status === 401) { location.href = 'login.html'; return ''; }
+      var html = await r.text();
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var wrap = doc.querySelector('.wrap') || doc.querySelector('.content-wrap') || doc.body;
+      if (!wrap) return '<div class="msg err">Unexpected response from the server (status ' + r.status + ').</div>';
+      var h1 = wrap.querySelector('h1');
+      if (h1) h1.remove();
+      var last = wrap.lastElementChild;
+      if (last && last.querySelector('a.btn.grey')) last.remove();
+      return wrap.innerHTML;
+    } catch (err) {
+      return '<div class="msg err">Cannot reach the server. Is Tomcat running?</div>';
+    }
+  }
+
+  async function loadDashboard() {
+    var box = document.getElementById('dashboard-content');
+    box.innerHTML = '<p style="color:var(--slate-500); font-size:14px;">Loading dashboard metrics...</p>';
+    box.innerHTML = await fetchContent(SERVLET);
+  }
+
+  async function loadRequests() {
+    result.innerHTML = '<p style="color:var(--slate-500); font-size:14px;">Loading pending requests...</p>';
+    result.innerHTML = await fetchContent('leave');
+  }
+
+  document.querySelectorAll('#tabs button').forEach(function (b) {
+    b.addEventListener('click', function () { show(b.dataset.target); });
+  });
+
+  document.querySelectorAll('form').forEach(function (form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (form.dataset.confirm) {
+        if (!window.confirm(form.dataset.confirm)) return;
+        form.elements['confirm'].value = 'Y';
+      }
+      var url = form.dataset.url || SERVLET;
+      var params = new URLSearchParams(new FormData(form));
+      var isPost = form.method.toLowerCase() === 'post';
+      result.innerHTML = '<p style="color:var(--slate-500); font-size:14px;">Processing request...</p>';
+      var html = await fetchContent(
+        isPost ? url : url + '?' + params.toString(),
+        isPost ? { method: 'POST', headers: FORM, body: params.toString() } : undefined);
+      result.innerHTML = html;
+      if (isPost) form.reset();
+    });
+  });
+
+  // Approve / Reject buttons in the leave requests table
+  document.addEventListener('click', async function (e) {
+    var approveBtn = e.target.closest('button.approve');
+    if (approveBtn) {
+      var params = new URLSearchParams({ action: 'decide', id: approveBtn.dataset.id, decision: 'approve' });
+      result.innerHTML = '<p style="color:var(--slate-500); font-size:14px;">Updating request status...</p>';
+      result.innerHTML = await fetchContent('leave', { method: 'POST', headers: FORM, body: params.toString() });
+      return;
+    }
+
+    var rejectBtn = e.target.closest('button.reject');
+    if (rejectBtn) {
+      var box = document.getElementById('rb-' + rejectBtn.dataset.id);
+      if (box) box.style.display = 'block';
+      return;
+    }
+
+    var confirmBtn = e.target.closest('button.confirm-reject');
+    if (confirmBtn) {
+      var id = confirmBtn.dataset.id;
+      var reasonInput = document.getElementById('rr-' + id);
+      var reason = reasonInput ? reasonInput.value.trim() : '';
+      if (!reason) { reasonInput.focus(); return; }
+      var params = new URLSearchParams({ action: 'decide', id: id, decision: 'reject', reason: reason });
+      result.innerHTML = '<p style="color:var(--slate-500); font-size:14px;">Recording rejection reason...</p>';
+      result.innerHTML = await fetchContent('leave', { method: 'POST', headers: FORM, body: params.toString() });
+    }
+  });
+
+  // Links inside the dashboard / server responses
+  document.addEventListener('click', async function (e) {
+    var a = e.target.closest('a');
+    if (!a || !a.closest('.wrap, .workspace') || (a.classList.contains('btn') && a.getAttribute('href') === 'logout')) return;
+    var href = a.getAttribute('href') || '';
+
+    if (href.indexOf('javascript:') === 0) {
+      e.preventDefault();
+      result.innerHTML = '';
+      return;
+    }
+    var page = href.match(/^(absent|leave|daily|history|monthly)\.html$/);
+    if (page) { e.preventDefault(); show(page[1]); return; }
+    if (href === 'index.html') { e.preventDefault(); show('dashboard'); return; }
+
+    if (href.indexOf(SERVLET) === 0) {
+      e.preventDefault();
+      var action = new URLSearchParams(href.split('?')[1] || '').get('action') || 'dashboard';
+      show(panels.indexOf(action) >= 0 ? action : 'dashboard');
+      if (action !== 'dashboard') result.innerHTML = await fetchContent(href);
+    }
+  });
+
+  TeamsUI.init(result);
+
+  fetch('session')
+    .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    .then(function (u) {
+      document.getElementById('who').textContent = u.name + ' (' + u.role + ')';
+      if (u.name) document.getElementById('avatarInitial').textContent = u.name.charAt(0).toUpperCase();
+      if (u.role) document.getElementById('kpiRole').textContent = u.role.toUpperCase();
+    })
+    .catch(function () { location.href = 'login.html'; });
+
+  function handleHashRoute() {
+    var hash = (window.location.hash || '').replace('#', '').trim();
+    if (hash && panels.indexOf(hash) !== -1) {
+      show(hash);
+    } else {
+      show('dashboard');
+    }
+  }
+  window.addEventListener('hashchange', handleHashRoute);
+  handleHashRoute();
+</script>
+
+<script>
+function toggleNavAccordion(id) {
+  var b = document.getElementById(id + '-body');
+  var h = document.getElementById(id + '-header');
+  if (b && h) {
+    b.classList.toggle('open');
+    h.classList.toggle('open');
+  }
+}
+</script>
+
+</body>
+</html>

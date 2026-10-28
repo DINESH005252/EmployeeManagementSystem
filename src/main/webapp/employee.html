@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employee Portal - WorkPulse HRMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #eff6ff;
+    --primary-border: #bfdbfe;
+    --brand-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-elevated: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--slate-50);
+    color: var(--slate-800);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* App Shell */
+  .app-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid var(--slate-200);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  .sidebar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .sidebar::-webkit-scrollbar-thumb {
+    background: var(--slate-200);
+    border-radius: 4px;
+  }
+  .brand-header {
+    height: 72px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--slate-200);
+    flex-shrink: 0;
+  }
+  .logo-box {
+    width: 36px;
+    height: 36px;
+    background: var(--brand-gradient);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    flex-shrink: 0;
+  }
+  .logo-box svg {
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+  }
+  .brand-text {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: 0.02em;
+  }
+  .brand-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary-border);
+    padding: 3px 7px;
+    border-radius: var(--radius-full);
+    margin-left: auto;
+    letter-spacing: 0.05em;
+  }
+
+  /* Fixed Navigation Alignment */
+  .nav-group {
+    padding: 14px 14px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 0 0 auto;
+  }
+  .nav-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--slate-400);
+    padding: 0 12px 6px 12px;
+  }
+  .tabs-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+  }
+
+  /* Tab Navigation Item Alignment */
+  .tabs-nav button, .btn-sidebar-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    width: 100%;
+    padding: 9.5px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--slate-600) !important;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+    transition: all 0.18s ease;
+    position: relative;
+  }
+  .tabs-nav button svg, .btn-sidebar-link svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    flex-shrink: 0 !important;
+    color: var(--slate-400);
+    transition: color 0.18s ease, transform 0.18s ease;
+  }
+  .tabs-nav button:hover, .btn-sidebar-link:hover {
+    background: var(--slate-100) !important;
+    color: var(--slate-900) !important;
+  }
+  .tabs-nav button:hover svg, .btn-sidebar-link:hover svg {
+    color: var(--primary);
+    transform: scale(1.05);
+  }
+  .tabs-nav button.on {
+    background: var(--primary-light) !important;
+    color: var(--primary) !important;
+    font-weight: 700;
+    border-color: var(--primary-border);
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.08);
+  }
+  .tabs-nav button.on svg {
+    color: var(--primary) !important;
+  }
+  .tabs-nav button.on::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--primary);
+  }
+
+  /* Main Workspace Area */
+  .workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #f8fafc;
+    min-height: 100vh;
+  }
+
+  /* Header Topbar */
+  .topbar {
+    height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--slate-200);
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .page-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .user-ctrls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    transition: all 0.2s ease;
+  }
+  .user-badge:hover {
+    background: var(--slate-50);
+    border-color: var(--slate-300);
+  }
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  }
+  .user-info-text {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--slate-800);
+  }
+  .btn-change-pw {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--slate-300);
+    background: #ffffff;
+    color: var(--slate-800);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-change-pw:hover {
+    background: var(--slate-50);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .btn-signout {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    color: var(--slate-600);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+  }
+  .btn-signout:hover {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+  }
+
+  /* View Body Content */
+  .content-wrap {
+    padding: 30px 36px;
+    max-width: 1120px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Metric KPI Overview */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 18px 22px;
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+    border-color: var(--slate-300);
+  }
+  .kpi-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .kpi-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .kpi-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-top: 3px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+  }
+  .kpi-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+  }
+  .kpi-pill-active { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+  .kpi-pill-break { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+  .kpi-pill-out { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+  .kpi-pill-leave { background: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+  .kpi-pill-pending { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+
+  /* Core Card Container */
+  .app-card {
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 32px 36px;
+    position: relative;
+    color: var(--slate-700);
+  }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; animation: panelFade 0.25s ease-out; }
+  @keyframes panelFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+  .panel-subtitle {
+    font-size: 13.5px;
+    color: var(--slate-500);
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+
+  /* Alert Banners */
+  .notice, .banner {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .notice {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+  }
+  .banner {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+  }
+  .banner.over {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+  }
+
+  /* Interactive Action Cards */
+  .action-container {
+    background: #f8fafc;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    max-width: 620px;
+  }
+  .action-prompt {
+    font-size: 14px;
+    color: var(--slate-700);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* Team Info Card Banner */
+  .team-header-box {
+    background: #f8fafc;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .team-header-box .team-lead-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .team-header-box .team-lead-info h3 {
+    color: var(--slate-900) !important;
+  }
+  .team-header-box .team-lead-info p {
+    color: var(--slate-500) !important;
+  }
+  .team-lead-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--brand-gradient);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+  }
+
+  /* Form Elements */
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin: 16px 0 6px;
+  }
+  input, select {
+    width: 100%;
+    padding: 10.5px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid var(--slate-300);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: var(--slate-900);
+    transition: all 0.15s ease;
+    box-shadow: none;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+
+  /* Regular Form Buttons */
+  button[type="submit"], .btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10.5px 22px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    background: var(--brand-gradient);
+    color: #ffffff;
+    transition: all 0.18s ease;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  }
+  button[type="submit"]:hover:not(:disabled), .btn-action:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  }
+  button[type="submit"]:active:not(:disabled), .btn-action:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  button:disabled {
+    background: var(--slate-100) !important;
+    color: var(--slate-400) !important;
+    border-color: var(--slate-200) !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .btn-secondary {
+    background: #ffffff !important;
+    border: 1px solid var(--slate-300) !important;
+    color: var(--slate-700) !important;
+    box-shadow: var(--shadow-subtle) !important;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--slate-50) !important;
+    border-color: var(--slate-400) !important;
+    color: var(--slate-900) !important;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--slate-500);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Table Action Buttons */
+  td button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 7px 14px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    border-radius: var(--radius-sm) !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+    margin: 0 4px 2px 0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid var(--slate-300) !important;
+    background: #ffffff !important;
+    color: var(--slate-700) !important;
+  }
+  td button svg {
+    width: 13px !important;
+    height: 13px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Results and Tables */
+  #result {
+    margin-top: 20px;
+  }
+  #result:empty {
+    display: none;
+    margin-top: 0;
+  }
+  #result h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin: 22px 0 12px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #result p {
+    font-size: 14px;
+    color: var(--slate-600);
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+
+  .msg {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 16px 0;
+  }
+  .ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+  .err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    background: #ffffff;
+  }
+  th, td {
+    padding: 13px 18px;
+    font-size: 13.5px;
+    text-align: left;
+    border-bottom: 1px solid var(--slate-100);
+  }
+  th {
+    background: #f8fafc;
+    font-weight: 700;
+    color: var(--slate-600);
+    letter-spacing: 0.05em;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--slate-200);
+  }
+  td {
+    color: var(--slate-800);
+    font-variant-numeric: tabular-nums;
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background-color: #f8fafc; }
+
+  /* Summary Metric Chips */
+  .attendance-summary-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+  }
+  .att-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    background: #ffffff;
+    border: 1px solid var(--slate-200);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+  .att-chip .chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .att-chip .chip-label {
+    color: var(--slate-600);
+    font-weight: 600;
+  }
+  .att-chip .chip-val {
+    font-weight: 800;
+    font-size: 14.5px;
+    margin-left: 2px;
+  }
+  .att-chip-present {
+    border-color: #a7f3d0;
+    background: #f0fdf4;
+  }
+  .att-chip-present .chip-dot { background: #10b981; }
+  .att-chip-present .chip-val { color: #065f46; }
+
+  .att-chip-half {
+    border-color: #fde68a;
+    background: #fffbeb;
+  }
+  .att-chip-half .chip-dot { background: #f59e0b; }
+  .att-chip-half .chip-val { color: #92400e; }
+
+  .att-chip-absent {
+    border-color: #fecaca;
+    background: #fef2f2;
+  }
+  .att-chip-absent .chip-dot { background: #ef4444; }
+  .att-chip-absent .chip-val { color: #991b1b; }
+
+  .att-chip-leave {
+    border-color: #e9d5ff;
+    background: #faf5ff;
+  }
+  .att-chip-leave .chip-dot { background: #a855f7; }
+  .att-chip-leave .chip-val { color: #6b21a8; }
+
+  /* Pill-Tag Badges for Tables & Team Listings */
+  .PRESENT, .APPROVED, .ACTIVE { 
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46; 
+    font-weight: 700; 
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+  .PRESENT::before, .APPROVED::before, .ACTIVE::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+  }
+
+  .ABSENT, .REJECTED, .INACTIVE { 
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b; 
+    font-weight: 700; 
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+  .ABSENT::before, .REJECTED::before, .INACTIVE::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ef4444;
+  }
+
+  .LEAVE, .HALF_DAY, .PENDING { 
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e; 
+    font-weight: 700; 
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+  .LEAVE::before, .HALF_DAY::before, .PENDING::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f59e0b;
+  }
+
+  .role-badge, .manager-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3.5px 10px;
+    border-radius: var(--radius-full);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-weight: 700;
+    font-size: 11.5px;
+  }
+
+  @media (max-width: 900px) {
+    .app-shell { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; }
+    .topbar { padding: 0 18px; }
+    .content-wrap { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- Fixed-Aligned Sidebar -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="logo-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <span class="brand-text">WORKPULSE HRMS</span>
+      <span class="brand-badge">EMPLOYEE</span>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-label">Attendance Menu</span>
+      <div id="tabs" class="tabs-nav">
+        <button data-target="history" class="on">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          My Attendance
+        </button>
+        <button data-target="checkin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Check-In
+        </button>
+        <button data-target="break">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Breaks
+        </button>
+        <button data-target="checkout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Check-Out
+        </button>
+        <button data-target="leave">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Leave Request
+        </button>
+        <button data-target="myteam">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          My Team
+        </button>
+        <button data-target="monthly">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+          Monthly Summary
+        </button>
+      </div>
+    </div>
+
+    <div class="nav-group" style="margin-top: 6px;">
+      <span class="nav-label">Task Management</span>
+      <div class="tabs-nav">
+        <a href="myTasks" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          My Tasks
+        </a>
+        <a href="taskDashboard" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Task Dashboard
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-group" style="border-top: 1px solid var(--slate-200); padding-top: 12px; margin-top: 8px; margin-bottom: 20px;">
+      <span class="nav-label">Reports &amp; Analytics</span>
+      <div class="tabs-nav">
+        <a href="reportsDashboard" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          My Reports
+        </a>
+      </div>
+    </div>
+    <div class="nav-group" style="border-top: 1px solid var(--slate-200); padding-top: 12px; margin-top: 8px; margin-bottom: 20px;">
+      <span class="nav-label">Payroll &amp; Payslips</span>
+      <div class="tabs-nav">
+        <a href="payroll/history" class="btn-sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><circle cx="16" cy="15" r="1"></circle></svg>
+          My Payslips
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Workspace Area -->
+  <div class="workspace">
+    <header class="topbar">
+      <h1 class="page-title">
+        Employee Portal
+      </h1>
+      <div class="user-ctrls">
+        <div class="user-badge">
+          <div class="user-avatar" id="avatarInitial">U</div>
+          <span class="user-info-text" id="who">Connecting session...</span>
+        </div>
+        <button type="button" class="btn-change-pw" onclick="openChangePasswordModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Change Password
+        </button>
+        <a class="btn-signout" href="logout">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </a>
+      </div>
+    </header>
+
+    <div class="content-wrap">
+      <!-- Quick Metric KPI Summary -->
+      <div class="metrics-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap" style="background:#eff6ff; color:#2563eb;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="kpi-title">Current Time</div>
+            <div class="kpi-value" id="kpiClock">--:--:--</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap" id="kpiStatusIcon" style="background:#fffbeb; color:#d97706;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="kpi-title">Today's Status</div>
+            <div class="kpi-value" id="kpiStatus"><span class="kpi-pill kpi-pill-pending">Not Checked In</span></div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap" style="background:#fffbeb; color:#d97706;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+          </div>
+          <div>
+            <div class="kpi-title">Breaks Remaining</div>
+            <div class="kpi-value" id="kpiBreaks">2 of 2 Available</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-Time Alerts & Banners -->
+      <div id="notice" class="notice"></div>
+      <div id="breakBanner" class="banner"></div>
+
+      <!-- Main Application Surface -->
+      <main class="app-card">
+        <!-- Section: History -->
+        <section id="history" class="panel active">
+          <h2>My Attendance History</h2>
+          <p class="panel-subtitle">Review previous shifts, calculated hours, and log entries.</p>
+        </section>
+
+        <!-- Section: Check-In -->
+        <section id="checkin" class="panel">
+          <h2>Daily Check-In</h2>
+          <p class="panel-subtitle">Record your shift arrival time.</p>
+          <div class="action-container">
+            <p class="action-prompt">Click below to stamp your official check-in time for today's session.</p>
+            <form method="post" data-confirm="Check in now?">
+              <input type="hidden" name="action" value="checkin">
+              <button type="submit" id="btnCheckin">Check In Now</button>
+            </form>
+            <p class="hint" id="hintCheckin"></p>
+          </div>
+        </section>
+
+        <!-- Section: Break -->
+        <section id="break" class="panel">
+          <h2>Shift Breaks</h2>
+          <p class="panel-subtitle">Track and utilize your allocated daily breaks.</p>
+          <div class="action-container">
+            <p class="action-prompt">
+              You are entitled to <b>2 breaks</b> per shift, <b>15 minutes</b> each. Any duration beyond 15 minutes is automatically subtracted from your net working hours.
+            </p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom: 8px;">
+              <form method="post" style="display:inline">
+                <input type="hidden" name="action" value="breakstart">
+                <button type="submit" id="btnStartBreak">Start Break</button>
+              </form>
+              <form method="post" style="display:inline">
+                <input type="hidden" name="action" value="breakend">
+                <button type="submit" id="btnEndBreak" class="btn-action btn-secondary">End Break</button>
+              </form>
+            </div>
+            <p class="hint" id="hintBreak"></p>
+            <p class="hint" style="color:var(--slate-400); border-top:1px dashed var(--slate-200); padding-top:12px; margin-top:14px;">
+              <b>Evaluation rule:</b> &ge;8 hrs = Present &bull; 4 to 8 hrs = Half Day &bull; &lt;4 hrs = Absent.
+            </p>
+          </div>
+        </section>
+
+        <!-- Section: Check-Out -->
+        <section id="checkout" class="panel">
+          <h2>Daily Check-Out</h2>
+          <p class="panel-subtitle">Finalize your work shift and close out tracking.</p>
+          <div class="action-container">
+            <p class="action-prompt">Ensure all breaks are completed before checking out for the day.</p>
+            <form method="post" data-confirm="Check out now?">
+              <input type="hidden" name="action" value="checkout">
+              <button type="submit" id="btnCheckout">Check Out Now</button>
+            </form>
+            <p class="hint" id="hintCheckout"></p>
+          </div>
+        </section>
+
+        <!-- Section: Leave Request -->
+        <section id="leave" class="panel">
+          <h2>Request Leave</h2>
+          <p class="panel-subtitle">Submit absence requests for administrative review.</p>
+          <form method="post" data-url="leave" data-reset="yes" style="max-width: 540px;">
+            <input type="hidden" name="action" value="request">
+            
+            <label>Leave Classification</label>
+            <select name="leaveType" required>
+              <option>Casual Leave</option>
+              <option>Sick Leave</option>
+              <option>Earned Leave</option>
+              <option>Other</option>
+            </select>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+              <div>
+                <label>From Date</label>
+                <input type="date" name="fromDate" id="fromDate" required>
+              </div>
+              <div>
+                <label>To Date</label>
+                <input type="date" name="toDate" id="toDate" required>
+              </div>
+            </div>
+            
+            <label>Reason / Comments</label>
+            <input name="reason" maxlength="255" placeholder="Specify context for your leave request" required>
+            
+            <div style="margin-top: 22px;">
+              <button type="submit">Submit Request</button>
+            </div>
+          </form>
+          <p class="hint" style="max-width:540px; margin-top: 14px;">
+            Note: Regular shifts remain accessible while your request is pending review. Once officially authorized, check-in options are frozen for the approved dates.
+          </p>
+        </section>
+
+        <!-- Section: My Team -->
+        <section id="myteam" class="panel">
+          <h2>My Team</h2>
+          <p class="panel-subtitle">View your department members, reporting hierarchy, and team contacts.</p>
+          <div class="team-header-box">
+            <div class="team-lead-info">
+              <div class="team-lead-avatar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <div>
+                <h3 style="font-size:15px; font-weight:700; color:var(--slate-900);">Team Directory</h3>
+                <p style="font-size:13px; color:var(--slate-500); margin:0;">Active department roster and assigned teammates</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Monthly Summary -->
+        <section id="monthly" class="panel">
+          <h2>Monthly Attendance Report</h2>
+          <p class="panel-subtitle">Analyze monthly attendance cycles and totals.</p>
+          <form method="get" style="max-width: 380px;">
+            <input type="hidden" name="action" value="monthly">
+            <label>Select Target Month</label>
+            <input type="month" name="month">
+            <button type="submit" style="margin-top:18px;">View Attendance Breakdown</button>
+          </form>
+        </section>
+
+        <!-- Server Injected Table & Results -->
+        <div id="result"></div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script>
+  var SERVLET = 'attendance';
+  var panels = ['history', 'checkin', 'break', 'checkout', 'leave', 'myteam', 'monthly'];
+  var result = document.getElementById('result');
+
+  var BREAK_MS = 15 * 60 * 1000;
+  var st = null, skew = 0;
+
+  // Real-time KPI Clock
+  function updateLiveClock() {
+    var now = new Date();
+    document.getElementById('kpiClock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+  setInterval(updateLiveClock, 1000);
+  updateLiveClock();
+
+  // ---------- talking to the server ----------
+  async function fetchContent(url, options) {
+    try {
+      var r = await fetch(url, options);
+      if (r.status === 401) { location.href = 'login.html'; return ''; }
+      var doc = new DOMParser().parseFromString(await r.text(), 'text/html');
+      var wrap = doc.querySelector('.wrap') || doc.querySelector('.container') || doc.body;
+      if (!wrap) return '<div class="msg err">Unexpected response from the server (status ' + r.status + ').</div>';
+      var h1 = wrap.querySelector('h1');
+      if (h1) h1.remove();
+      var h2 = wrap.querySelector('h2');
+      if (h2 && h2.textContent.toLowerCase().includes('employee:')) {
+        h2.remove();
+      }
+      wrap.querySelectorAll('a.btn').forEach(function (a) { a.parentElement.remove(); });
+      return wrap.innerHTML;
+    } catch (err) {
+      return '<div class="msg err">Cannot reach the server. Is the application service running?</div>';
+    }
+  }
+
+  async function refreshStatus() {
+    try {
+      var r = await fetch('status');
+      if (r.status === 401) { location.href = 'login.html'; return; }
+      if (!r.ok) return;
+      st = await r.json();
+      skew = st.nowMillis - Date.now();
+      applyStatus();
+    } catch (e) { /* silent retry */ }
+  }
+
+  // ---------- enable / disable buttons & update KPI chips ----------
+  function applyStatus() {
+    var leave = st.onLeave;
+    var recordedNoWork = st.hasRecord && !st.checkedIn;
+
+    // Notice banner
+    var notice = '';
+    if (leave) notice = 'You are on approved leave today. Check-in, breaks, and check-out are locked.';
+    else if (recordedNoWork) notice = 'HR has recorded your status as ' + st.recordStatus.replace('_', ' ') + ' today. Actions are disabled.';
+    var n = document.getElementById('notice');
+    n.textContent = notice;
+    n.style.display = notice ? 'flex' : 'none';
+
+    // Status KPI Card update
+    var statusKpi = document.getElementById('kpiStatus');
+    var statusIcon = document.getElementById('kpiStatusIcon');
+    if (leave) {
+      statusKpi.innerHTML = '<span class="kpi-pill kpi-pill-leave">On Leave</span>';
+      if (statusIcon) {
+        statusIcon.style.background = '#faf5ff';
+        statusIcon.style.color = '#9333ea';
+        statusIcon.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+      }
+    } else if (st.checkedOut) {
+      statusKpi.innerHTML = '<span class="kpi-pill kpi-pill-out">Checked Out</span>';
+      if (statusIcon) {
+        statusIcon.style.background = '#f1f5f9';
+        statusIcon.style.color = '#475569';
+        statusIcon.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+      }
+    } else if (st.onBreak) {
+      statusKpi.innerHTML = '<span class="kpi-pill kpi-pill-break">On Break</span>';
+      if (statusIcon) {
+        statusIcon.style.background = '#fffbeb';
+        statusIcon.style.color = '#d97706';
+        statusIcon.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>';
+      }
+    } else if (st.checkedIn) {
+      statusKpi.innerHTML = '<span class="kpi-pill kpi-pill-active">Active Working</span>';
+      if (statusIcon) {
+        statusIcon.style.background = '#ecfdf5';
+        statusIcon.style.color = '#059669';
+        statusIcon.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+      }
+    } else {
+      statusKpi.innerHTML = '<span class="kpi-pill kpi-pill-pending">Not Checked In</span>';
+      if (statusIcon) {
+        statusIcon.style.background = '#fffbeb';
+        statusIcon.style.color = '#d97706';
+        statusIcon.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+      }
+    }
+
+    // Breaks KPI Card update
+    var breaksLeft = Math.max(0, (st.maxBreaks || 2) - (st.breaksStarted || 0));
+    document.getElementById('kpiBreaks').textContent = breaksLeft + ' of ' + (st.maxBreaks || 2) + ' Available';
+
+    // Button states
+    var canCheckin = !leave && !st.hasRecord;
+    var canStart = !leave && st.checkedIn && !st.checkedOut && !st.onBreak && st.breaksStarted < st.maxBreaks;
+    var canEnd = !leave && st.onBreak;
+    var canOut = !leave && st.checkedIn && !st.checkedOut && !st.onBreak;
+
+    document.getElementById('btnCheckin').disabled = !canCheckin;
+    document.getElementById('btnStartBreak').disabled = !canStart;
+    document.getElementById('btnEndBreak').disabled = !canEnd;
+    document.getElementById('btnCheckout').disabled = !canOut;
+
+    // Dynamic hints
+    var hi = '';
+    if (leave) hi = 'Disabled: you are on approved leave today.';
+    else if (st.hasRecord) hi = 'Your attendance for today is already recorded.';
+    document.getElementById('hintCheckin').textContent = hi;
+
+    var hb;
+    if (leave || recordedNoWork) hb = 'Breaks are disabled today.';
+    else if (!st.checkedIn) hb = 'Check in first.';
+    else if (st.checkedOut) hb = 'You have already checked out.';
+    else if (st.onBreak) hb = 'You are on break ' + st.breaksStarted + ' of ' + st.maxBreaks + '. Remember to click End Break when returning.';
+    else if (st.breaksStarted >= st.maxBreaks) hb = 'Both breaks are used for today.';
+    else hb = 'Breaks used: ' + st.breaksStarted + ' of ' + st.maxBreaks + '.';
+    document.getElementById('hintBreak').textContent = hb;
+
+    var ho = '';
+    if (leave || recordedNoWork) ho = 'Disabled for today.';
+    else if (!st.checkedIn) ho = 'Check in first.';
+    else if (st.checkedOut) ho = 'You have already checked out today.';
+    else if (st.onBreak) ho = 'End your break before checking out.';
+    document.getElementById('hintCheckout').textContent = ho;
+
+    tick();
+  }
+
+  // ---------- break countdown banner ----------
+  function fmt(ms) {
+    var s = Math.max(0, Math.floor(ms / 1000));
+    var m = Math.floor(s / 60), r = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r;
+  }
+
+  function tick() {
+    var b = document.getElementById('breakBanner');
+    if (!st || !st.onBreak) { b.style.display = 'none'; return; }
+
+    var left = BREAK_MS - (Date.now() + skew - st.breakStartMillis);
+    b.style.display = 'flex';
+
+    if (left > 0) {
+      b.className = 'banner';
+      b.textContent = 'Break ' + st.breaksStarted + ' of ' + st.maxBreaks + ' • Time remaining: ' + fmt(left);
+    } else {
+      b.className = 'banner over';
+      b.textContent = 'Break time exceeded by ' + fmt(-left) + '. Please end your break • overtime is deducted from your hours.';
+    }
+  }
+  setInterval(tick, 1000);
+  setInterval(refreshStatus, 30000);
+
+  // ---------- tabs ----------
+  function show(name) {
+    panels.forEach(function (p) { 
+      var el = document.getElementById(p);
+      if (el) el.classList.toggle('active', p === name); 
+    });
+    document.querySelectorAll('#tabs button').forEach(function (b) { 
+      b.classList.toggle('on', b.dataset.target === name); 
+    });
+    result.innerHTML = '';
+    refreshStatus();
+    if (name === 'history') loadHistory();
+    if (name === 'leave') loadLeaves();
+    if (name === 'myteam') loadMyTeam();
+  }
+
+  async function loadHistory() {
+    result.innerHTML = '<p class="hint">Loading attendance history...</p>';
+    result.innerHTML = await fetchContent(SERVLET + '?action=history');
+  }
+  async function loadLeaves() {
+    result.innerHTML = '<p class="hint">Loading leave records...</p>';
+    result.innerHTML = await fetchContent('leave');
+  }
+  async function loadMyTeam() {
+    result.innerHTML = '<p class="hint">Loading team details...</p>';
+    result.innerHTML = await fetchContent('team?action=myteam');
+  }
+
+  document.querySelectorAll('#tabs button').forEach(function (b) {
+    b.addEventListener('click', function () { show(b.dataset.target); });
+  });
+
+  // ---------- forms ----------
+  document.querySelectorAll('form').forEach(function (form) {
+    if (form.id === 'changePasswordForm') return;
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (form.dataset.confirm && !window.confirm(form.dataset.confirm)) return;
+      var url = form.dataset.url || SERVLET;
+      var params = new URLSearchParams(new FormData(form));
+      var isPost = form.method.toLowerCase() === 'post';
+      result.innerHTML = '<p class="hint">Processing request...</p>';
+      var html = await fetchContent(
+        isPost ? url : url + '?' + params.toString(),
+        isPost ? { method: 'POST',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                   body: params.toString() } : undefined);
+      result.innerHTML = html;
+      if (isPost && form.dataset.reset === 'yes' && html.indexOf('msg ok') >= 0) form.reset();
+      refreshStatus();
+    });
+  });
+
+  // ---------- setup ----------
+  (function () {
+    var d = new Date();
+    var iso = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var fromEl = document.getElementById('fromDate');
+    var toEl = document.getElementById('toDate');
+    if (fromEl) fromEl.min = iso;
+    if (toEl) toEl.min = iso;
+  })();
+
+  fetch('session')
+    .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    .then(function (u) {
+      window.currentEmpId = u.employeeId || u.username || '';
+      document.getElementById('who').textContent = u.name + ' (' + u.employeeId + ')';
+      if (u.name) document.getElementById('avatarInitial').textContent = u.name.charAt(0).toUpperCase();
+      if (u.mustChangePassword) {
+        openChangePasswordModal(true);
+      }
+    })
+    .catch(function () { location.href = 'login.html'; });
+
+  var initialTab = (location.hash && panels.indexOf(location.hash.slice(1)) !== -1) ? location.hash.slice(1) : 'history';
+  show(initialTab);
+
+  window.addEventListener('hashchange', function () {
+    var tab = location.hash.slice(1);
+    if (panels.indexOf(tab) !== -1) show(tab);
+  });
+
+  function openChangePasswordModal(isMandatory) {
+    var m = document.getElementById('changePasswordModal');
+    if (!m) return;
+    m.style.display = 'flex';
+    var link1 = document.getElementById('linkEmpForgotPw');
+    var link2 = document.getElementById('linkEmpForgotPw2');
+    var qId = window.currentEmpId ? ('?id=' + encodeURIComponent(window.currentEmpId)) : '';
+    if (link1) link1.href = 'forgotPassword.html' + qId;
+    if (link2) link2.href = 'forgotPassword.html' + qId;
+
+    var notice = document.getElementById('pwModalNotice');
+    if (isMandatory) {
+      notice.style.display = 'block';
+      notice.style.background = '#fffbeb';
+      notice.style.color = '#92400e';
+      notice.style.border = '1px solid #fde68a';
+      notice.innerHTML = '<span style="display:inline-block; margin-right:4px;">&#9888;</span> <b>Temporary Password in Use:</b> Please set a permanent password for your account to proceed securely. If you did not receive or lost your temporary password, click <b>Forgot Password</b> below.';
+    } else {
+      notice.style.display = 'none';
+    }
+  }
+
+  function closeChangePasswordModal() {
+    var m = document.getElementById('changePasswordModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function submitChangePassword(e) {
+    e.preventDefault();
+    var curr = document.getElementById('modalCurrentPw').value;
+    var newP = document.getElementById('modalNewPw').value;
+    var conf = document.getElementById('modalConfirmPw').value;
+    var notice = document.getElementById('pwModalNotice');
+
+    if (newP !== conf) {
+      notice.style.display = 'block';
+      notice.style.background = '#fef2f2';
+      notice.style.color = '#991b1b';
+      notice.style.border = '1px solid #fecaca';
+      notice.textContent = 'New password and confirmation do not match.';
+      return;
+    }
+
+    var btn = document.getElementById('btnSubmitPw');
+    btn.disabled = true;
+    btn.textContent = 'Updating...';
+
+    var params = new URLSearchParams();
+    params.append('currentPassword', curr);
+    params.append('newPassword', newP);
+    params.append('confirmPassword', conf);
+    params.append('ajax', 'true');
+
+    fetch('change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.disabled = false;
+      btn.textContent = 'Update Password';
+      if (data.success) {
+        notice.style.display = 'block';
+        notice.style.background = '#ecfdf5';
+        notice.style.color = '#065f46';
+        notice.style.border = '1px solid #a7f3d0';
+        notice.textContent = data.message || 'Password changed successfully!';
+        document.getElementById('changePasswordForm').reset();
+        setTimeout(closeChangePasswordModal, 1600);
+      } else {
+        notice.style.display = 'block';
+        notice.style.background = '#fef2f2';
+        notice.style.color = '#991b1b';
+        notice.style.border = '1px solid #fecaca';
+        notice.textContent = data.message || 'Failed to change password.';
+      }
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.textContent = 'Update Password';
+      notice.style.display = 'block';
+      notice.style.background = '#fef2f2';
+      notice.style.color = '#991b1b';
+      notice.style.border = '1px solid #fecaca';
+      notice.textContent = 'Network error. Please try again.';
+    });
+  }
+</script>
+
+<!-- Change Password Modal -->
+<div id="changePasswordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.45); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px);">
+  <div style="background:#ffffff; border:1px solid var(--slate-200); border-radius:18px; max-width:440px; width:100%; padding:32px 28px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); position:relative;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+      <h3 style="font-size:18px; font-weight:800; color:var(--slate-900); display:flex; align-items:center; gap:8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Change Account Password
+      </h3>
+      <button type="button" onclick="closeChangePasswordModal()" style="background:none; border:none; font-size:24px; color:var(--slate-400); cursor:pointer; line-height:1; transition:color 0.15s ease;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#94a3b8'">&times;</button>
+    </div>
+
+    <div id="pwModalNotice" style="display:none; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:600; margin-bottom:14px; line-height:1.45;"></div>
+
+    <form id="changePasswordForm" onsubmit="submitChangePassword(event)">
+      <div style="margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <label style="font-size:12.5px; font-weight:700; color:var(--slate-700); margin:0;">Current / Temporary Password</label>
+          <a id="linkEmpForgotPw" href="forgotPassword.html" target="_blank" style="font-size:12px; font-weight:700; color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Forgot Password?
+          </a>
+        </div>
+        <input type="password" id="modalCurrentPw" required maxlength="100" style="width:100%; padding:10px 12px; border:1.5px solid var(--slate-300); border-radius:8px; font-size:13.5px; background:#ffffff; color:var(--slate-900);" placeholder="Enter current password">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:12.5px; font-weight:700; color:var(--slate-700); margin-bottom:6px;">New Password</label>
+        <input type="password" id="modalNewPw" required minlength="8" maxlength="100" style="width:100%; padding:10px 12px; border:1.5px solid var(--slate-300); border-radius:8px; font-size:13.5px; background:#ffffff; color:var(--slate-900);" placeholder="At least 8 chars (letters & numbers)">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block; font-size:12.5px; font-weight:700; color:var(--slate-700); margin-bottom:6px;">Confirm New Password</label>
+        <input type="password" id="modalConfirmPw" required minlength="8" maxlength="100" style="width:100%; padding:10px 12px; border:1.5px solid var(--slate-300); border-radius:8px; font-size:13.5px; background:#ffffff; color:var(--slate-900);" placeholder="Confirm new password">
+      </div>
+      <div style="margin-bottom:18px; padding:10px 12px; border-radius:8px; background:#eff6ff; border:1px solid #bfdbfe; font-size:12.5px; color:var(--slate-700); display:flex; justify-content:space-between; align-items:center;">
+        <span>Forgot temporary / current password?</span>
+        <a id="linkEmpForgotPw2" href="forgotPassword.html" target="_blank" style="color:#2563eb; font-weight:800; text-decoration:underline;">Reset with code &rarr;</a>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" onclick="closeChangePasswordModal()" style="padding:10px 18px; border:1px solid var(--slate-300); background:#ffffff; color:var(--slate-700); font-weight:700; border-radius:8px; cursor:pointer; transition:all 0.15s ease;">Cancel</button>
+        <button type="submit" id="btnSubmitPw" style="padding:10px 20px; background:var(--brand-gradient); color:#ffffff; font-weight:700; border:none; border-radius:8px; cursor:pointer; box-shadow:0 2px 6px rgba(37,99,235,0.25);">Update Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

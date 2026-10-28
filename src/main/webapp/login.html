@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkPulse HRMS — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-dark: #f8fafc;
+    --brand-dark-card: #ffffff;
+    --brand-primary: #1d4ed8;
+    --brand-primary-hover: #1e40af;
+    --brand-primary-grad: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    --brand-primary-grad-hover: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    --brand-accent: #38bdf8;
+    --brand-accent-glow: #60a5fa;
+    --brand-subtle: #eff6ff;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--slate-900);
+    background: #ffffff;
+    display: flex;
+    overflow-x: hidden;
+  }
+
+  /* Two-Column Split Layout */
+  .auth-layout {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+  }
+
+  /* ================= LEFT BRAND PANEL ================= */
+  .brand-panel {
+    flex: 1.08;
+    background: linear-gradient(145deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 56px;
+    color: #ffffff;
+    z-index: 1;
+  }
+
+  #constellationCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .brand-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-logo-icon {
+    width: 38px;
+    height: 38px;
+    background: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+
+  .brand-logo-icon svg {
+    color: var(--brand-primary);
+  }
+
+  .brand-company-title {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .brand-center {
+    position: relative;
+    z-index: 2;
+    max-width: 540px;
+    margin: 40px 0;
+  }
+
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    margin-bottom: 26px;
+    backdrop-filter: blur(8px);
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brand-accent);
+    box-shadow: 0 0 10px var(--brand-accent);
+  }
+
+  .hero-headline {
+    font-size: clamp(34px, 3.8vw, 48px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--slate-400);
+    margin-bottom: 34px;
+  }
+
+  /* Connected Features List */
+  .feature-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+
+  .feature-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .feature-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brand-accent);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+  }
+
+  .brand-bottom {
+    position: relative;
+    z-index: 2;
+    font-size: 12.5px;
+    color: var(--slate-500);
+  }
+
+  /* ================= RIGHT FORM PANEL ================= */
+  .form-panel {
+    flex: 1;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 44px 56px;
+    position: relative;
+    overflow-y: auto;
+  }
+
+  .form-topbar {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--slate-200);
+    background: #ffffff;
+    color: var(--slate-700);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-back-home:hover {
+    border-color: var(--slate-300);
+    background: var(--slate-50);
+    color: var(--slate-900);
+  }
+
+  .form-container {
+    max-width: 420px;
+    width: 100%;
+    margin: auto;
+    padding: 24px 0;
+  }
+
+  .form-container h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .form-container .subtitle {
+    font-size: 14.5px;
+    color: var(--slate-500);
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  /* Alert Banners */
+  .msg {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    margin-bottom: 20px;
+    display: none;
+    text-align: left;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ok {
+    background: var(--brand-subtle);
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+  }
+
+  .err {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+
+  /* Form Controls */
+  .field-group {
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    width: 18px;
+    height: 18px;
+    color: var(--slate-400);
+    pointer-events: none;
+    transition: color 0.15s ease;
+  }
+
+  input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px 0 44px;
+    font-size: 14.5px;
+    font-family: inherit;
+    border: 1.5px solid var(--slate-200);
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--slate-800);
+    transition: all 0.2s ease;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3.5px rgba(29, 78, 216, 0.14);
+  }
+
+  .input-wrap:focus-within .input-icon {
+    color: var(--brand-primary);
+  }
+
+  .btn-toggle-pw {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    color: var(--slate-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+    border-radius: 6px;
+  }
+
+  .btn-toggle-pw:hover {
+    color: var(--slate-700);
+  }
+
+  .btn-toggle-pw svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .forgot-link-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    margin-bottom: 22px;
+  }
+
+  .forgot-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand-primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .forgot-link:hover {
+    color: var(--brand-primary-hover);
+    text-decoration: underline;
+  }
+
+  /* Continue Button */
+  .btn-continue {
+    width: 100%;
+    height: 48px;
+    background: var(--brand-primary-grad);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
+  }
+
+  .btn-continue:hover {
+    background: var(--brand-primary-grad-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(29, 78, 216, 0.35);
+  }
+
+  .btn-continue:active {
+    transform: translateY(0);
+  }
+
+  .legal-disclaimer {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--slate-400);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .legal-disclaimer a {
+    color: var(--brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .legal-disclaimer a:hover {
+    text-decoration: underline;
+  }
+
+  /* Mobile / Tablet Responsive Adjustments */
+  @media (max-width: 960px) {
+    .auth-layout {
+      flex-direction: column;
+    }
+    .brand-panel {
+      padding: 36px 28px;
+      flex: none;
+    }
+    .hero-headline {
+      font-size: 28px;
+    }
+    .form-panel {
+      padding: 36px 24px;
+      flex: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="auth-layout">
+  <!-- LEFT: Dark Brand Showcase with Constellation -->
+  <aside class="brand-panel">
+    <canvas id="constellationCanvas"></canvas>
+
+    <div class="brand-top">
+      <div class="brand-logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <span class="brand-company-title">WORKPULSE HRMS</span>
+    </div>
+
+    <div class="brand-center">
+      <div class="badge-pill">
+        <span class="badge-dot"></span>
+        WORKPULSE HRMS
+      </div>
+
+      <h2 class="hero-headline">
+        One workplace,<br>
+        every HR task in it.
+      </h2>
+
+      <p class="hero-subtitle">
+        One portal for your whole team &mdash; track attendance, approve leave, manage tasks and review performance, with dashboards that stay accurate in real time.
+      </p>
+
+      <div class="feature-nodes">
+        <span class="feature-item"><span class="feature-dot"></span> Attendance</span>
+        <span class="feature-item"><span class="feature-dot"></span> Leave</span>
+        <span class="feature-item"><span class="feature-dot"></span> Tasks</span>
+        <span class="feature-item"><span class="feature-dot"></span> Teams</span>
+        <span class="feature-item"><span class="feature-dot"></span> Performance</span>
+      </div>
+    </div>
+
+    <div class="brand-bottom">
+      &copy; 2026 WorkPulse Solutions Pvt. Ltd. All rights reserved.
+    </div>
+  </aside>
+
+  <!-- RIGHT: Light Sign-In Form -->
+  <main class="form-panel">
+    <div class="form-topbar">
+      <a href="index.html" class="btn-back-home">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+
+    <div class="form-container">
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Sign in to your WorkPulse HRMS account</p>
+
+      <!-- Server & Query Response Alerts -->
+      <div id="ok" class="msg ok"></div>
+      <div id="err" class="msg err"></div>
+
+      <!-- Sign In Form -->
+      <form method="post" action="login">
+        <div class="field-group">
+          <label for="identifier">EMAIL ADDRESS OR EMPLOYEE ID</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <input id="identifier" name="identifier" required maxlength="100" autocomplete="username" placeholder="name@example.com or EMP101" autofocus>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="password">PASSWORD</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input id="password" type="password" name="password" required maxlength="100" autocomplete="current-password" placeholder="Enter your password" style="padding-right: 44px;">
+            <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+              <svg id="pwEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Forgot Password Right Aligned -->
+        <div class="forgot-link-row">
+          <a href="forgotPassword.html" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-continue">
+          Continue &rarr;
+        </button>
+      </form>
+
+      <div class="legal-disclaimer">
+        By signing in you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+      </div>
+    </div>
+
+    <!-- Empty Spacer for Symmetrical Vertical Centering -->
+    <div style="height: 38px;"></div>
+  </main>
+</div>
+
+<script>
+  // Password Visibility Toggle
+  function togglePasswordVisibility() {
+    var pwField = document.getElementById('password');
+    var icon = document.getElementById('pwEyeIcon');
+    if (pwField.type === 'password') {
+      pwField.type = 'text';
+      icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    } else {
+      pwField.type = 'password';
+      icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+  }
+
+  // URL Query Parameters Handling
+  var q = new URLSearchParams(location.search);
+  if (q.get('error')) {
+    var e = document.getElementById('err');
+    var errText = q.get('error');
+    e.innerHTML = '<div style="display:flex; flex-direction:column; gap:4px; width:100%;"><span>' + errText + '</span><span style="font-size:12.5px; border-top:1px solid rgba(244,63,94,0.25); padding-top:4px; margin-top:2px;">Forgot your password? <a href="forgotPassword.html" style="color:#b91c1c; font-weight:800; text-decoration:underline;">Click here to reset with verification code &rarr;</a></span></div>';
+    e.style.display = 'flex';
+  }
+  if (q.get('msg')) {
+    var o = document.getElementById('ok');
+    o.textContent = q.get('msg');
+    o.style.display = 'flex';
+  }
+  if (q.get('registered')) {
+    var o = document.getElementById('ok');
+    o.innerHTML = 'Account created successfully! Your Employee ID is <b>' + (q.get('empId') || '') + '</b>. '
+      + 'You can sign in with this ID or with your registered email.';
+    o.style.display = 'flex';
+  }
+
+  // ================= CONSTELLATION NETWORK CANVAS =================
+  (function initConstellation() {
+    var canvas = document.getElementById('constellationCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var w, h;
+
+    function resize() {
+      w = canvas.width = canvas.parentElement.clientWidth;
+      h = canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    var count = Math.max(28, Math.min(45, Math.floor((w * h) / 14000)));
+    for (var i = 0; i < count; i++) {
+      var isSpecial = i % 7 === 0;
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: isSpecial ? (Math.random() * 2 + 3.5) : (Math.random() * 1.5 + 1.2),
+        isSpecial: isSpecial,
+        alpha: isSpecial ? 0.95 : 0.4
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+
+      // Draw connecting lines
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          var maxDist = 135;
+
+          if (dist < maxDist) {
+            var lineAlpha = (1 - dist / maxDist) * 0.2;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            if (particles[i].isSpecial || particles[j].isSpecial) {
+              ctx.strokeStyle = 'rgba(56, 189, 248, ' + (lineAlpha * 1.5) + ')';
+              ctx.lineWidth = 1;
+            } else {
+              ctx.strokeStyle = 'rgba(255, 255, 255, ' + lineAlpha + ')';
+              ctx.lineWidth = 0.8;
+            }
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Update and draw particles
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+
+        if (p.isSpecial) {
+          // Glowing cyan/sapphire pulse node
+          ctx.fillStyle = '#38bdf8';
+          ctx.shadowColor = '#38bdf8';
+          ctx.shadowBlur = 14;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          // Outer faint halo
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius * 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.16)';
+          ctx.fill();
+        } else {
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + p.alpha + ')';
+          ctx.fill();
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+</script>
+</body>
+</html>
